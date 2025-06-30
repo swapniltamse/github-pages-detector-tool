@@ -161,77 +161,77 @@
 
       // --- Gemini API Integration ---
 
-      async function getProjectIdeas(repo) {
-        showLoader(
-          geminiOutputDiv,
-          "✨ Gemini is thinking of new project ideas..."
-        );
+      //   async function getProjectIdeas(repo) {
+      //     showLoader(
+      //       geminiOutputDiv,
+      //       "✨ Gemini is thinking of new project ideas..."
+      //     );
 
-        const repoName = repo.name;
-        const repoDescription = repo.description || "a web project";
+      //     const repoName = repo.name;
+      //     const repoDescription = repo.description || "a web project";
 
-        const prompt = `Based on a GitHub project called "${repoName}" which is described as "${repoDescription}", generate 3 creative and distinct project ideas that a student could build for their portfolio. These projects should be suitable for hosting on GitHub Pages (static sites using HTML, CSS, JS). Provide a catchy title and a 1-2 sentence description for each idea.`;
+      //     const prompt = `Based on a GitHub project called "${repoName}" which is described as "${repoDescription}", generate 3 creative and distinct project ideas that a student could build for their portfolio. These projects should be suitable for hosting on GitHub Pages (static sites using HTML, CSS, JS). Provide a catchy title and a 1-2 sentence description for each idea.`;
 
-        try {
-          let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-          const payload = { contents: chatHistory };
-          const apiKey = ""; // API key will be managed by the environment
-          const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+      //     try {
+      //       let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+      //       const payload = { contents: chatHistory };
+      //       const apiKey = ""; // API key will be managed by the environment
+      //       const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-          const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
+      //       const response = await fetch(apiUrl, {
+      //         method: "POST",
+      //         headers: { "Content-Type": "application/json" },
+      //         body: JSON.stringify(payload),
+      //       });
 
-          if (!response.ok) {
-            throw new Error(`Gemini API error! Status: ${response.status}`);
-          }
+      //       if (!response.ok) {
+      //         throw new Error(`Gemini API error! Status: ${response.status}`);
+      //       }
 
-          const result = await response.json();
+      //       const result = await response.json();
 
-          if (
-            result.candidates &&
-            result.candidates.length > 0 &&
-            result.candidates[0].content &&
-            result.candidates[0].content.parts &&
-            result.candidates[0].content.parts.length > 0
-          ) {
-            const text = result.candidates[0].content.parts[0].text;
-            displayProjectIdeas(text);
-          } else {
-            throw new Error(
-              "Received an unexpected response structure from Gemini API."
-            );
-          }
-        } catch (error) {
-          console.error("Gemini API Error:", error);
-          geminiOutputDiv.innerHTML = `<div class="bg-red-900/50 text-red-300 p-3 rounded-lg">Failed to get ideas. ${error.message}</div>`;
-        }
-      }
+      //       if (
+      //         result.candidates &&
+      //         result.candidates.length > 0 &&
+      //         result.candidates[0].content &&
+      //         result.candidates[0].content.parts &&
+      //         result.candidates[0].content.parts.length > 0
+      //       ) {
+      //         const text = result.candidates[0].content.parts[0].text;
+      //         displayProjectIdeas(text);
+      //       } else {
+      //         throw new Error(
+      //           "Received an unexpected response structure from Gemini API."
+      //         );
+      //       }
+      //     } catch (error) {
+      //       console.error("Gemini API Error:", error);
+      //       geminiOutputDiv.innerHTML = `<div class="bg-red-900/50 text-red-300 p-3 rounded-lg">Failed to get ideas. ${error.message}</div>`;
+      //     }
+      //   }
 
-      function displayProjectIdeas(ideasText) {
-        // Simple parsing assuming the model returns a Markdown-like format
-        const ideasHtml = ideasText
-          .split(/\n\s*\n/) // Split by blank lines
-          .map((idea) => {
-            if (!idea.trim()) return "";
-            // Make the title bold
-            const formattedIdea = idea.replace(/^\*?\*?([^:]+):/, "**$1:**");
-            return `<div class="bg-gray-700/50 p-4 rounded-lg mb-3 animate-fade-in">${formattedIdea
-              .replace(
-                /\*\*(.*?)\*\*/g,
-                '<strong class="text-violet-300">$1</strong>'
-              )
-              .replace(/\n/g, "<br>")}</div>`;
-          })
-          .join("");
+      //   function displayProjectIdeas(ideasText) {
+      //     // Simple parsing assuming the model returns a Markdown-like format
+      //     const ideasHtml = ideasText
+      //       .split(/\n\s*\n/) // Split by blank lines
+      //       .map((idea) => {
+      //         if (!idea.trim()) return "";
+      //         // Make the title bold
+      //         const formattedIdea = idea.replace(/^\*?\*?([^:]+):/, "**$1:**");
+      //         return `<div class="bg-gray-700/50 p-4 rounded-lg mb-3 animate-fade-in">${formattedIdea
+      //           .replace(
+      //             /\*\*(.*?)\*\*/g,
+      //             '<strong class="text-violet-300">$1</strong>'
+      //           )
+      //           .replace(/\n/g, "<br>")}</div>`;
+      //       })
+      //       .join("");
 
-        geminiOutputDiv.innerHTML = `
-                <h3 class="text-xl font-bold text-violet-400 mb-3 text-center">Project Ideas ✨</h3>
-                ${ideasHtml}
-            `;
-      }
+      //     geminiOutputDiv.innerHTML = `
+      //             <h3 class="text-xl font-bold text-violet-400 mb-3 text-center">Project Ideas ✨</h3>
+      //             ${ideasHtml}
+      //         `;
+      //   }
 
       // Main function to check for GitHub Pages
       const checkPages = async () => {
