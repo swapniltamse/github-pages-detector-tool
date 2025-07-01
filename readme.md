@@ -2,6 +2,8 @@
 
 A simple tool to detect if a given website is hosted on GitHub Pages.
 
+![image](https://github.com/user-attachments/assets/150f9f8d-9196-4553-82e4-7781faeb9d2a)
+
 
 ## Features
 
