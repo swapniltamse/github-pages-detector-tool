@@ -125,13 +125,14 @@
                         <span class="font-semibold">Live URL:</span> 
                         <a href="${pagesUrl}" target="_blank" class="text-cyan-400 hover:underline">${pagesUrl}</a>
                     </p>
-                    <div class="mt-4">
-                        <button id="gemini-btn" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center">
-                           ✨ Suggest New Projects
-                        </button>
-                    </div>
                 </div>
             `;
+        // TODO: Uncomment the following lines to enable Gemini suggestions
+        // <div class="mt-4">
+        //     <button id="gemini-btn" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center">
+        //        ✨ Suggest New Projects
+        //     </button>
+        // </div>
         document
           .getElementById("gemini-btn")
           .addEventListener("click", () => getProjectIdeas(repo));
