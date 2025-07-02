@@ -271,19 +271,22 @@
 
       async function callGemini(prompt, displayFunction, outputContainer) {
         try {
-          let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-          const payload = { contents: chatHistory };
-          const apiKey = ""; // API key will be managed by the environment
-          const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+          // The new URL for our serverless function proxy
+          const proxyUrl = "/.netlify/functions/gemini";
 
-          const response = await fetch(apiUrl, {
+          const response = await fetch(proxyUrl, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ prompt: prompt }), // Send the prompt in the body
           });
 
           if (!response.ok) {
-            throw new Error(`Gemini API error! Status: ${response.status}`);
+            const errorData = await response.json();
+            throw new Error(
+              errorData.error || `Proxy error! Status: ${response.status}`
+            );
           }
 
           const result = await response.json();
@@ -297,11 +300,11 @@
             displayFunction(text);
           } else {
             throw new Error(
-              "Received an unexpected response structure from Gemini API."
+              "Received an unexpected response structure from the proxy."
             );
           }
         } catch (error) {
-          console.error("Gemini API Error:", error);
+          console.error("API Proxy Error:", error);
           displayError(error.message, outputContainer);
         }
       }
