@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GitHub Pages Detector with AI Ideas</title>
+    <title>GitHub Pages Detector & AI Troubleshooter</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
@@ -26,30 +26,19 @@
           -webkit-transform: rotate(360deg);
         }
       }
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-      .gemini-loader {
-        border-top-color: #8b5cf6;
-      }
     </style>
   </head>
   <body
     class="bg-gray-900 text-white flex items-center justify-center min-h-screen p-4"
   >
-    <div class="w-full max-w-md">
+    <div class="w-full max-w-lg">
       <div class="bg-gray-800 shadow-lg rounded-2xl p-6 md:p-8">
         <div class="text-center mb-6">
           <h1 class="text-2xl md:text-3xl font-bold text-cyan-400">
-            GitHub Pages Detector
+            GitHub Pages Detector & Troubleshooter
           </h1>
           <p class="text-gray-400 mt-2">
-            Find a repo with GitHub Pages, then get AI-powered project ideas!
+            Find a Pages site, get hosting tips, or debug deployment issues.
           </p>
         </div>
 
@@ -87,11 +76,100 @@
 
         <!-- Results and status area -->
         <div id="result" class="mt-6 text-center"></div>
+
+        <!-- Gemini feature button container -->
+        <div id="gemini-btn-container" class="mt-4"></div>
+
         <!-- Gemini features will be injected here -->
         <div id="gemini-output" class="mt-4 text-left"></div>
+
+        <!-- Deployment Troubleshooter -->
+        <div id="troubleshooter" class="mt-8 border-t-2 border-gray-700 pt-6">
+          <h2 class="text-xl font-bold text-center text-amber-400 mb-4">
+            Deployment Troubleshooter
+          </h2>
+          <textarea
+            id="issue-description"
+            class="w-full bg-gray-700 text-white placeholder-gray-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 border border-gray-600 transition duration-300"
+            rows="3"
+            placeholder="Describe your GitHub Pages problem (e.g., 'I'm getting a 404 error', 'my CNAME file isn't working', 'build failed')..."
+          ></textarea>
+          <button
+            id="troubleshoot-btn"
+            class="mt-3 w-full bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="mr-2"
+            >
+              <path
+                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+              ></path>
+            </svg>
+            Get Help from AI
+          </button>
+          <div id="troubleshooter-output" class="mt-4 text-left"></div>
+        </div>
       </div>
       <footer class="text-center mt-6 text-gray-500 text-sm">
-        <p>Made for the community. Free to use.</p>
+        <p class="mb-4">Made for the community. Free to use.</p>
+
+        <!-- Charity Donation Section -->
+        <p class="mb-2">
+          If this tool was helpful, consider supporting a great cause:
+        </p>
+        <div class="flex items-center justify-center gap-3 mb-3">
+          <select
+            id="charity-selector"
+            class="bg-gray-700 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-gray-600"
+          >
+            <!-- Options will be added by JavaScript -->
+          </select>
+          <button
+            id="donate-btn"
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          >
+            Donate
+          </button>
+        </div>
+
+        <!-- Buy Me A Coffee Link -->
+        <p class="mb-2">...or support the developer directly:</p>
+        <div>
+          <a
+            href="https://www.buymeacoffee.com/swapniltamse"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded-lg transition duration-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="mr-2"
+            >
+              <path
+                d="M10 21.35A6.35 6.35 0 0 0 16.35 15H21a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4.65A6.35 6.35 0 0 0 10 21.35z"
+              ></path>
+              <path d="M7 5V2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3"></path>
+            </svg>
+            Buy me a coffee
+          </a>
+        </div>
       </footer>
     </div>
 
@@ -99,7 +177,15 @@
       const usernameInput = document.getElementById("username");
       const checkBtn = document.getElementById("check-btn");
       const resultDiv = document.getElementById("result");
+      const geminiBtnContainer = document.getElementById(
+        "gemini-btn-container"
+      );
       const geminiOutputDiv = document.getElementById("gemini-output");
+      const issueDescription = document.getElementById("issue-description");
+      const troubleshootBtn = document.getElementById("troubleshoot-btn");
+      const troubleshooterOutput = document.getElementById(
+        "troubleshooter-output"
+      );
 
       // Function to show a loading spinner
       const showLoader = (container, message) => {
@@ -127,15 +213,6 @@
                     </p>
                 </div>
             `;
-        // TODO: Uncomment the following lines to enable Gemini suggestions
-        // <div class="mt-4">
-        //     <button id="gemini-btn" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center">
-        //        ✨ Suggest New Projects
-        //     </button>
-        // </div>
-        // document
-        //   .getElementById("gemini-btn")
-        //   .addEventListener("click", () => getProjectIdeas(repo));
       };
 
       // Function to display a "not found" message
@@ -146,93 +223,129 @@
                     <p class="mt-1">We couldn't find a repository with GitHub Pages enabled for the user <strong class="font-semibold">${username}</strong>.</p>
                 </div>
             `;
-        geminiOutputDiv.innerHTML = ""; // Clear Gemini output
       };
 
       // Function to display an error message
-      const displayError = (message) => {
-        resultDiv.innerHTML = `
+      const displayError = (message, container = resultDiv) => {
+        container.innerHTML = `
                 <div class="bg-red-900/50 border border-red-700 text-red-300 rounded-lg p-4 animate-fade-in">
                     <h3 class="font-bold text-lg">An Error Occurred</h3>
                     <p class="mt-1">${message}</p>
                 </div>
             `;
-        geminiOutputDiv.innerHTML = ""; // Clear Gemini output
+      };
+
+      // Function to show the Gemini feature button
+      const showHostingButton = () => {
+        geminiBtnContainer.innerHTML = `
+                <button id="hosting-btn" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center animate-fade-in">
+                   💡 Get Cheap Hosting Ideas & Tips
+                </button>
+            `;
+        document
+          .getElementById("hosting-btn")
+          .addEventListener("click", getHostingTips);
       };
 
       // --- Gemini API Integration ---
 
-      //   async function getProjectIdeas(repo) {
-      //     showLoader(
-      //       geminiOutputDiv,
-      //       "✨ Gemini is thinking of new project ideas..."
-      //     );
+      async function getHostingTips() {
+        showLoader(geminiOutputDiv, "💡 Gemini is fetching hosting tips...");
+        const prompt = `As an expert web developer advising a student, provide a concise list of cheap and free website hosting ideas for static sites (HTML, CSS, JS). Start with GitHub Pages, then suggest 3-4 other popular free-tier alternatives like Netlify, Vercel, and Cloudflare Pages. For each, give a 1-2 sentence summary of its key advantage (e.g., "best for ease of use", "great for performance", "includes serverless functions"). End with a final tip about using custom domains.`;
+        await callGemini(prompt, displayHostingTips, geminiOutputDiv);
+      }
 
-      //     const repoName = repo.name;
-      //     const repoDescription = repo.description || "a web project";
+      async function getDebugHelp() {
+        const userIssue = issueDescription.value.trim();
+        if (!userIssue) {
+          displayError(
+            "Please describe your issue first.",
+            troubleshooterOutput
+          );
+          return;
+        }
+        showLoader(troubleshooterOutput, "🤖 AI is analyzing your issue...");
+        const prompt = `Act as an expert troubleshooter for GitHub Pages. A user is experiencing the following issue: "${userIssue}". Provide a clear, step-by-step guide to diagnose and fix this problem. Start with the most likely cause first. Use Markdown for formatting, including code snippets for commands or file examples. Common issues to be an expert on include: 404 errors, custom domain (CNAME) problems, build failures, CSS/JS not loading, and long deployment times.`;
+        await callGemini(prompt, displayDebugHelp, troubleshooterOutput);
+      }
 
-      //     const prompt = `Based on a GitHub project called "${repoName}" which is described as "${repoDescription}", generate 3 creative and distinct project ideas that a student could build for their portfolio. These projects should be suitable for hosting on GitHub Pages (static sites using HTML, CSS, JS). Provide a catchy title and a 1-2 sentence description for each idea.`;
+      async function callGemini(prompt, displayFunction, outputContainer) {
+        try {
+          let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+          const payload = { contents: chatHistory };
+          const apiKey = ""; // API key will be managed by the environment
+          const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-      //     try {
-      //       let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-      //       const payload = { contents: chatHistory };
-      //       const apiKey = ""; // API key will be managed by the environment
-      //       const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
 
-      //       const response = await fetch(apiUrl, {
-      //         method: "POST",
-      //         headers: { "Content-Type": "application/json" },
-      //         body: JSON.stringify(payload),
-      //       });
+          if (!response.ok) {
+            throw new Error(`Gemini API error! Status: ${response.status}`);
+          }
 
-      //       if (!response.ok) {
-      //         throw new Error(`Gemini API error! Status: ${response.status}`);
-      //       }
+          const result = await response.json();
 
-      //       const result = await response.json();
+          if (
+            result.candidates &&
+            result.candidates[0].content &&
+            result.candidates[0].content.parts[0].text
+          ) {
+            const text = result.candidates[0].content.parts[0].text;
+            displayFunction(text);
+          } else {
+            throw new Error(
+              "Received an unexpected response structure from Gemini API."
+            );
+          }
+        } catch (error) {
+          console.error("Gemini API Error:", error);
+          displayError(error.message, outputContainer);
+        }
+      }
 
-      //       if (
-      //         result.candidates &&
-      //         result.candidates.length > 0 &&
-      //         result.candidates[0].content &&
-      //         result.candidates[0].content.parts &&
-      //         result.candidates[0].content.parts.length > 0
-      //       ) {
-      //         const text = result.candidates[0].content.parts[0].text;
-      //         displayProjectIdeas(text);
-      //       } else {
-      //         throw new Error(
-      //           "Received an unexpected response structure from Gemini API."
-      //         );
-      //       }
-      //     } catch (error) {
-      //       console.error("Gemini API Error:", error);
-      //       geminiOutputDiv.innerHTML = `<div class="bg-red-900/50 text-red-300 p-3 rounded-lg">Failed to get ideas. ${error.message}</div>`;
-      //     }
-      //   }
+      function displayHostingTips(text) {
+        const html = text
+          .replace(
+            /\*\*(.*?)\*\*/g,
+            '<strong class="text-violet-300">$1</strong>'
+          )
+          .replace(/(\d\.)/g, "<br><br>$1")
+          .replace(
+            /\* (.*?):/g,
+            '<strong class="text-violet-300">$1:</strong>'
+          );
 
-      //   function displayProjectIdeas(ideasText) {
-      //     // Simple parsing assuming the model returns a Markdown-like format
-      //     const ideasHtml = ideasText
-      //       .split(/\n\s*\n/) // Split by blank lines
-      //       .map((idea) => {
-      //         if (!idea.trim()) return "";
-      //         // Make the title bold
-      //         const formattedIdea = idea.replace(/^\*?\*?([^:]+):/, "**$1:**");
-      //         return `<div class="bg-gray-700/50 p-4 rounded-lg mb-3 animate-fade-in">${formattedIdea
-      //           .replace(
-      //             /\*\*(.*?)\*\*/g,
-      //             '<strong class="text-violet-300">$1</strong>'
-      //           )
-      //           .replace(/\n/g, "<br>")}</div>`;
-      //       })
-      //       .join("");
+        geminiOutputDiv.innerHTML = `
+                <div class="bg-gray-700/50 p-4 rounded-lg animate-fade-in">
+                    <h3 class="text-xl font-bold text-violet-400 mb-3 text-center">Hosting Ideas & Tips 💡</h3>
+                    <p class="text-gray-300">${html}</p>
+                </div>
+            `;
+      }
 
-      //     geminiOutputDiv.innerHTML = `
-      //             <h3 class="text-xl font-bold text-violet-400 mb-3 text-center">Project Ideas ✨</h3>
-      //             ${ideasHtml}
-      //         `;
-      //   }
+      function displayDebugHelp(text) {
+        const html = text
+          .replace(
+            /```(html|bash|text|yaml)?\n([\s\S]*?)```/g,
+            '<pre class="bg-gray-900 rounded-md p-3 my-2 text-sm overflow-x-auto"><code>$2</code></pre>'
+          )
+          .replace(
+            /`([^`]+)`/g,
+            '<code class="bg-gray-900 px-1 py-0.5 rounded-md">$1</code>'
+          )
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+          .replace(/\n/g, "<br>");
+
+        troubleshooterOutput.innerHTML = `
+                <div class="bg-gray-700/50 p-4 rounded-lg animate-fade-in">
+                    <h3 class="text-lg font-bold text-amber-300 mb-3">AI Troubleshooting Steps:</h3>
+                    <div class="text-gray-300 leading-relaxed">${html}</div>
+                </div>
+            `;
+      }
 
       // Main function to check for GitHub Pages
       const checkPages = async () => {
@@ -242,13 +355,13 @@
           return;
         }
 
-        geminiOutputDiv.innerHTML = ""; // Clear previous Gemini results
+        geminiOutputDiv.innerHTML = "";
+        geminiBtnContainer.innerHTML = "";
         showLoader(resultDiv, "Checking repositories...");
 
         try {
           let foundRepo = null;
           for (let page = 1; page <= 5; page++) {
-            // Check up to 500 repos
             const response = await fetch(
               `https://api.github.com/users/${username}/repos?per_page=100&page=${page}`
             );
@@ -276,14 +389,46 @@
         } catch (error) {
           console.error("Error fetching data:", error);
           displayError(error.message);
+        } finally {
+          showHostingButton();
         }
       };
+
+      // --- Charity Donation Logic ---
+      const charitySelector = document.getElementById("charity-selector");
+      const donateBtn = document.getElementById("donate-btn");
+
+      const charities = [
+        { name: "Girls Who Code", url: "https://girlswhocode.com/donate" },
+        {
+          name: "The Trevor Project",
+          url: "https://give.thetrevorproject.org/",
+        },
+        { name: "FreeCodeCamp", url: "https://www.freecodecamp.org/donate" },
+        { name: "EFF", url: "https://www.eff.org/donate" },
+        { name: "Khan Academy", url: "https://www.khanacademy.org/donate" },
+      ];
+
+      charities.forEach((charity) => {
+        const option = document.createElement("option");
+        option.value = charity.url;
+        option.textContent = charity.name;
+        charitySelector.appendChild(option);
+      });
+
+      donateBtn.addEventListener("click", () => {
+        const selectedUrl = charitySelector.value;
+        if (selectedUrl) {
+          window.open(selectedUrl, "_blank");
+        }
+      });
 
       // Event Listeners
       checkBtn.addEventListener("click", checkPages);
       usernameInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") checkPages();
       });
+      troubleshootBtn.addEventListener("click", getDebugHelp);
 
       // Add a simple fade-in animation for the results
       const style = document.createElement("style");
