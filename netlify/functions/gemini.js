@@ -16,14 +16,14 @@ exports.handler = async function (event) {
     };
   }
 
-  // We only want to process POST requests for our main logic
-  if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 405, // Method Not Allowed
-      headers,
-      body: "Method Not Allowed",
-    };
-  }
+//   // We only want to process POST requests for our main logic
+//   if (event.httpMethod !== "POST") {
+//     return {
+//       statusCode: 405, // Method Not Allowed
+//       headers,
+//       body: "Method Not Allowed",
+//     };
+//   }
 
   try {
     // 1. Get the prompt from the request body
